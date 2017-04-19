@@ -61,6 +61,9 @@ int main(int argc, char *argv[])
     char *OUTPUT_DIR;
     char *parametersTextFile = (char*) malloc(MAX_FILENAME_STRING_LEN*sizeof(char));
     char *inputFName;
+    double lat;
+    double lon;
+    double depth;
 
     // generate structs to house parameters for each call type
     gen_extract_velo_mod_call GEN_EXTRACT_VELO_MOD_CALL;
@@ -75,7 +78,7 @@ int main(int argc, char *argv[])
         writeSampleInputTextFiles();
         exit(EXIT_SUCCESS);
     }
-    else if ( argc==2 )
+    else if ( argc!=1 )
     {
 //        strcpy(parametersTextFile,argv[1]);
 //       CALL_TYPE = readParameter(parametersTextFile,"CALL_TYPE");
@@ -84,8 +87,24 @@ int main(int argc, char *argv[])
         CALL_TYPE = "GENERATE_VELOCITIES_ON_GRID";
         MODEL_VERSION= "1.65";
         OUTPUT_DIR = "Vs_At_Gridpoints";
+        
+        printf("********************************************************\n");
+        printf("Make sure You provide the data in sequence: Lat, long, Depth (m)  \n");
+        printf("********************************************************\n");
+    if ( argc!=4 ) //if no inputs are given
+    {
+        printf("Make sure you given the coordinates (lat, long, depth) correctly in input. Exiting.\n");
+        writeSampleInputTextFiles();
+        exit(EXIT_SUCCESS);
+    }
+    else if ( argc==4 )
+    {
+        sscanf(argv[1],"%lf",&lat);
+        sscanf(argv[2],"%lf",&lon);
+        sscanf(argv[3],"%lf",&depth);
+        
 
-
+    }    
         // if(strcmp(CALL_TYPE, "GENERATE_VELOCITY_MOD") == 0)
         // {
         //     GENERATE_VELOCITY_MOD = 1;
@@ -133,16 +152,16 @@ int main(int argc, char *argv[])
             GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.TOPO_TYPE = "BULLDOZED";
             GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.MIN_VS = 0.500;
             GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.COORDINATES_TEXT_FILE = "SecondaryInputFiles/GridpointCoords.txt";
-            fprintf(stderr, "Done with getting the file names of input file\n");
+
         }
 
 
 //    }
-    else
-    {
-        printf("Incorrect number of inputs given, only 1 required. See readme.\n");
-        exit(EXIT_FAILURE);
-    }
+    // else
+    // {
+    //     printf("Incorrect number of inputs given, only 1 required. See readme.\n");
+    //     exit(EXIT_FAILURE);
+    // }
 
 
 
@@ -250,7 +269,8 @@ int main(int argc, char *argv[])
         printf("==========================================\n");
         printf("Running GENERATE_VELOCITIES_ON_GRID.\n");
         printf("==========================================\n");
-        runGenerateMultipleVSonGrid(MODEL_VERSION, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG);
+    //    runGenerateMultipleVSonGrid(MODEL_VERSION, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG);
+        runGenerateMultipleVSonGrid(MODEL_VERSION, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG, lat, lon, depth);
         printf("==========================================\n");
         printf("Completed running GENERATE_VELOCITIES_ON_GRID.\n");
         printf("==========================================\n");

@@ -13,7 +13,7 @@
 #include <assert.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "omp.h"
+//#include "omp.h"
 
 #include "constants.h"
 #include "structs.h"
@@ -360,8 +360,30 @@ void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extr
 {
     // Read in text file with parameters
     multi_gridpoint_parameters *MULTI_GRIDPOINT_PARAMETERS;
-    MULTI_GRIDPOINT_PARAMETERS = readGridpointsTextFile(GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.COORDINATES_TEXT_FILE);
+    printf( "This is total number of points %d\n", &MULTI_GRIDPOINT_PARAMETERS->nPts );
+//    MULTI_GRIDPOINT_PARAMETERS = readGridpointsTextFile(GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.COORDINATES_TEXT_FILE);
+    MULTI_GRIDPOINT_PARAMETERS = initializegrid();
     variable_depth_points *VARIABLE_DEPTH_POINTS;
+
+
+// *******************************************************************************************************
+// input data is hardwired in the system right now. Next step will be to load it from outside.
+    // MULTI_GRIDPOINT_PARAMETERS->nPts= 1;
+    // MULTI_GRIDPOINT_PARAMETERS->lat[0]= -43.00;
+    // MULTI_GRIDPOINT_PARAMETERS->lon[0]= 172.00;
+    // MULTI_GRIDPOINT_PARAMETERS->dep[0]= -2000.0;
+    // MULTI_GRIDPOINT_PARAMETERS->nGroupings= 1;     
+
+
+// ********************************************************************************************************
+    // test of the input parameters 
+
+    printf( "This is total number of points %d\n", MULTI_GRIDPOINT_PARAMETERS->nPts );
+    printf( "This is the lat long value, %lf %lf %lf", MULTI_GRIDPOINT_PARAMETERS->lat[0], MULTI_GRIDPOINT_PARAMETERS->lon[0], MULTI_GRIDPOINT_PARAMETERS->dep[0] );
+   // printf( "This is total number of points, %d\n",&MULTI_GRIDPOINT_PARAMETERS->nPts );
+
+
+//**********************************************************************************************************    
 
     // obtain surface filenames based off version number
     global_model_parameters *GLOBAL_MODEL_PARAMETERS;
@@ -406,11 +428,20 @@ void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extr
         exit(EXIT_FAILURE);
     }
 
-
+//*******************************************************************************************************
+   // loading input data from the desk 
+    MULTI_GRIDPOINT_PARAMETERS->nPts= 1;
+    MULTI_GRIDPOINT_PARAMETERS->lat[0]= -43.00;
+    MULTI_GRIDPOINT_PARAMETERS->lon[0]= 172.00;
+    MULTI_GRIDPOINT_PARAMETERS->dep[0]= -2000.0;
+    MULTI_GRIDPOINT_PARAMETERS->nGroupings= 1;  
     int grdPtsCount = 0;
+
+//*******************************************************************************************************    
     // loop over gridpoints
-    for( int i = 0; i < MULTI_GRIDPOINT_PARAMETERS->nGroupings; i++ )
-    {
+//    for( int i = 0; i < MULTI_GRIDPOINT_PARAMETERS->nGroupings; i++ )
+//    {
+        int i=0;
         MESH_VECTOR->nZ = 0;
         while (MULTI_GRIDPOINT_PARAMETERS->grouping[grdPtsCount] == i)
         {
@@ -452,6 +483,7 @@ void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extr
         assignQualities(GLOBAL_MODEL_PARAMETERS, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA,
                         MESH_VECTOR, PARTIAL_GLOBAL_SURFACE_DEPTHS, PARTIAL_BASIN_SURFACE_DEPTHS, IN_BASIN,
                         QUALITIES_VECTOR, CALCULATION_LOG, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.TOPO_TYPE);
+        printf("Hello test the grouping loop .\n");
         writeGridpointVelocities(QUALITIES_VECTOR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, MESH_VECTOR, OUTPUT_DIR, CALCULATION_LOG, i);
 
         printf("Gridpoint lat-lon %i of %i complete.\n", i + 1, MULTI_GRIDPOINT_PARAMETERS->nGroupings);
@@ -469,7 +501,7 @@ void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extr
             printf("Memory allocation of MESH_VECTOR failed.\n");
             exit(EXIT_FAILURE);
         }
-    }
+//    }
 //    free(VELO_MOD_1D_DATA);
 //    freeEPtomoSurfaceData(NZ_TOMOGRAPHY_DATA);
 //    free(NZ_TOMOGRAPHY_DATA);

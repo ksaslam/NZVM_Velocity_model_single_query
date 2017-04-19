@@ -27,6 +27,7 @@
 int main(int argc, char *argv[])
 {
 
+// ****************************************************************************
 //    int main(void)
 //    {
 //    int argc = 2;
@@ -41,6 +42,8 @@ int main(int argc, char *argv[])
 //    argv[1] = "Sample_Input_Text_Files/GENERATE_VELOCITY_SLICES.txt";
 //    argv[1] = "Sample_Input_Text_Files/GENERATE_MULTIPLE_PROFILES(constant_spacing_example).txt";
 //    argv[1] = "Sample_Input_Text_Files/GENERATE_VELOCITIES_ON_GRID.txt";
+// **********************************************************************************
+
 
 
     // set call type flags to zero (0)
@@ -74,58 +77,67 @@ int main(int argc, char *argv[])
     }
     else if ( argc==2 )
     {
-        strcpy(parametersTextFile,argv[1]);
-        CALL_TYPE = readParameter(parametersTextFile,"CALL_TYPE");
-        MODEL_VERSION = readParameter(parametersTextFile,"MODEL_VERSION");
-        OUTPUT_DIR = readParameter(parametersTextFile,"OUTPUT_DIR");
+//        strcpy(parametersTextFile,argv[1]);
+//       CALL_TYPE = readParameter(parametersTextFile,"CALL_TYPE");
+//        MODEL_VERSION = readParameter(parametersTextFile,"MODEL_VERSION");
+//        OUTPUT_DIR = readParameter(parametersTextFile,"OUTPUT_DIR");
+        CALL_TYPE = "GENERATE_VELOCITIES_ON_GRID";
+        MODEL_VERSION= "1.65";
+        OUTPUT_DIR = "Vs_At_Gridpoints";
 
 
-        if(strcmp(CALL_TYPE, "GENERATE_VELOCITY_MOD") == 0)
-        {
-            GENERATE_VELOCITY_MOD = 1;
-            GEN_EXTRACT_VELO_MOD_CALL = readGenVMInputTextFile(parametersTextFile);
-            inputFName = "GENERATE_VELOCITY_MOD";
-        }
-        else if (strcmp(CALL_TYPE, "EXTRACT_VELOCITY_SLICES") == 0)
-        {
-            EXTRACT_VELOCITY_SLICES = 1;
-            GEN_EXTRACT_VELO_MOD_CALL  = readExtractVMInputTextFile(parametersTextFile);
-            inputFName = "EXTRACT_VELOCITY_SLICES";
-        }
-        else if (strcmp(CALL_TYPE, "GENERATE_VELOCITY_SLICES") == 0)
-        {
-            GENERATE_VELOCITY_SLICES = 1;
-            GEN_VELO_SLICES_CALL = readGenerateSliceInputTextFile(parametersTextFile);
-            inputFName = "GENERATE_VELOCITY_SLICES";
-        }
-        else if (strcmp(CALL_TYPE, "GENERATE_PROFILE") == 0)
-        {
-            GENERATE_PROFILE = 1;
-            GEN_PROFILE_CALL = readGenerateProfileInputTextFile(parametersTextFile);
-            inputFName = "GENERATE_PROFILE";
+        // if(strcmp(CALL_TYPE, "GENERATE_VELOCITY_MOD") == 0)
+        // {
+        //     GENERATE_VELOCITY_MOD = 1;
+        //     GEN_EXTRACT_VELO_MOD_CALL = readGenVMInputTextFile(parametersTextFile);
+        //     inputFName = "GENERATE_VELOCITY_MOD";
+        // }
+        // else if (strcmp(CALL_TYPE, "EXTRACT_VELOCITY_SLICES") == 0)
+        // {
+        //     EXTRACT_VELOCITY_SLICES = 1;
+        //     GEN_EXTRACT_VELO_MOD_CALL  = readExtractVMInputTextFile(parametersTextFile);
+        //     inputFName = "EXTRACT_VELOCITY_SLICES";
+        // }
+        // else if (strcmp(CALL_TYPE, "GENERATE_VELOCITY_SLICES") == 0)
+        // {
+        //     GENERATE_VELOCITY_SLICES = 1;
+        //     GEN_VELO_SLICES_CALL = readGenerateSliceInputTextFile(parametersTextFile);
+        //     inputFName = "GENERATE_VELOCITY_SLICES";
+        // }
+        // else if (strcmp(CALL_TYPE, "GENERATE_PROFILE") == 0)
+        // {
+        //     GENERATE_PROFILE = 1;
+        //     GEN_PROFILE_CALL = readGenerateProfileInputTextFile(parametersTextFile);
+        //     inputFName = "GENERATE_PROFILE";
 
-        }
-        else if (strcmp(CALL_TYPE, "GENERATE_THRESHOLD") == 0)
-        {
-            GENERATE_THRESHOLD = 1;
-            GEN_EXTRACT_VELO_MOD_CALL = readThresholdInputTextFile(parametersTextFile);
-            inputFName = "GENERATE_THRESHOLD";
-        }
-        else if (strcmp(CALL_TYPE, "GENERATE_MULTIPLE_PROFILES") == 0)
-        {
-            GENERATE_MULTIPLE_PROFILES = 1;
-            GEN_MULTI_PROFILES_CALL = readGenMultiProfileInputTextFile(parametersTextFile);
-            inputFName = "GENERATE_MULTIPLE_PROFILES";
-        }
-        else if (strcmp(CALL_TYPE, "GENERATE_VELOCITIES_ON_GRID") == 0)
+        // }
+        // else if (strcmp(CALL_TYPE, "GENERATE_THRESHOLD") == 0)
+        // {
+        //     GENERATE_THRESHOLD = 1;
+        //     GEN_EXTRACT_VELO_MOD_CALL = readThresholdInputTextFile(parametersTextFile);
+        //     inputFName = "GENERATE_THRESHOLD";
+        // }
+        // else if (strcmp(CALL_TYPE, "GENERATE_MULTIPLE_PROFILES") == 0)
+        // {
+        //     GENERATE_MULTIPLE_PROFILES = 1;
+        //     GEN_MULTI_PROFILES_CALL = readGenMultiProfileInputTextFile(parametersTextFile);
+        //     inputFName = "GENERATE_MULTIPLE_PROFILES";
+    }
+
+
+        if (strcmp(CALL_TYPE, "GENERATE_VELOCITIES_ON_GRID") == 0)
         {
             GENERATE_VELOCITIES_ON_GRID = 1;
-            GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL = readExtractMultiInputTextFile(parametersTextFile);
-            inputFName = "GENERATE_VELOCITIES_ON_GRID";
+//            GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL = readExtractMultiInputTextFile(parametersTextFile);
+//            inputFName = "GENERATE_VELOCITIES_ON_GRID";
+            GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.TOPO_TYPE = "BULLDOZED";
+            GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.MIN_VS = 0.500;
+            GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.COORDINATES_TEXT_FILE = "SecondaryInputFiles/GridpointCoords.txt";
+            fprintf(stderr, "Done with getting the file names of input file\n");
         }
 
 
-    }
+//    }
     else
     {
         printf("Incorrect number of inputs given, only 1 required. See readme.\n");
@@ -151,19 +163,19 @@ int main(int argc, char *argv[])
         }
 
     }
-    else if (EXTRACT_VELOCITY_SLICES == 1)
-    {
-        struct stat st;
-        if (stat(OUTPUT_DIR, &st) != -1)
-        {
-            createAllOutputDirectories(OUTPUT_DIR, CALL_TYPE);
-        }
-        else
-        {
-            printf("Output directory must exist for this EXTRACT_VELOCITY_SLICES call type. See readme.\n");
-            exit(EXIT_FAILURE);
-        }
-    }
+    // else if (EXTRACT_VELOCITY_SLICES == 1)
+    // {
+    //     struct stat st;
+    //     if (stat(OUTPUT_DIR, &st) != -1)
+    //     {
+    //         createAllOutputDirectories(OUTPUT_DIR, CALL_TYPE);
+    //     }
+    //     else
+    //     {
+    //         printf("Output directory must exist for this EXTRACT_VELOCITY_SLICES call type. See readme.\n");
+    //         exit(EXIT_FAILURE);
+    //     }
+    // }
 
 
     // generate the log file struct

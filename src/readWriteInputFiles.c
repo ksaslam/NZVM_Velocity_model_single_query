@@ -366,6 +366,18 @@ multi_profile_parameters *readProfilesTextFile(char *coordsTextFile)
 
 }
 
+multi_gridpoint_parameters *initializegrid(void)
+{
+    multi_gridpoint_parameters  *MULTI_GRIDPOINT_PARAMETERS;
+    MULTI_GRIDPOINT_PARAMETERS = malloc(sizeof(multi_gridpoint_parameters));
+    if (MULTI_GRIDPOINT_PARAMETERS == NULL)
+    {
+        printf("Memory allocation of MULTI_GRIDPOINT_PARAMETERS failed.\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
+
 multi_gridpoint_parameters *readGridpointsTextFile(char *gridpointsTextFile)
 {
     multi_gridpoint_parameters  *MULTI_GRIDPOINT_PARAMETERS;
@@ -376,50 +388,50 @@ multi_gridpoint_parameters *readGridpointsTextFile(char *gridpointsTextFile)
         exit(EXIT_FAILURE);
     }
 
-    FILE *file;
+    // FILE *file;
 
-    file = fopen(gridpointsTextFile, "r");
+    // file = fopen(gridpointsTextFile, "r");
 
-    if (file == NULL)
-    {
-        printf("Gridpoints text file %s not found.\n",gridpointsTextFile);
-        exit(EXIT_FAILURE);
-    }
+    // if (file == NULL)
+    // {
+    //     printf("Gridpoints text file %s not found.\n",gridpointsTextFile);
+    //     exit(EXIT_FAILURE);
+    // }
 
-    fscanf(file, "%d", &MULTI_GRIDPOINT_PARAMETERS->nPts);
+    // fscanf(file, "%d", &MULTI_GRIDPOINT_PARAMETERS->nPts);
 
-    if(MULTI_GRIDPOINT_PARAMETERS->nPts>=MAX_NUM_GRIDPOINTS)
-    {
-        printf("Number of gridpoints in the text file exceeds the maximum allowable value of %i.\n",MAX_NUM_GRIDPOINTS);
-        exit(EXIT_FAILURE);
-    }
+    // if(MULTI_GRIDPOINT_PARAMETERS->nPts>=MAX_NUM_GRIDPOINTS)
+    // {
+    //     printf("Number of gridpoints in the text file exceeds the maximum allowable value of %i.\n",MAX_NUM_GRIDPOINTS);
+    //     exit(EXIT_FAILURE);
+    // }
 
-    for(int i = 0; i < MULTI_GRIDPOINT_PARAMETERS->nPts; i++)
-    {
-        fscanf(file, "%lf %lf %lf", &MULTI_GRIDPOINT_PARAMETERS->lat[i], &MULTI_GRIDPOINT_PARAMETERS->lon[i], &MULTI_GRIDPOINT_PARAMETERS->dep[i]);
-    }
+    // for(int i = 0; i < MULTI_GRIDPOINT_PARAMETERS->nPts; i++)
+    // {
+    //     fscanf(file, "%lf %lf %lf", &MULTI_GRIDPOINT_PARAMETERS->lat[i], &MULTI_GRIDPOINT_PARAMETERS->lon[i], &MULTI_GRIDPOINT_PARAMETERS->dep[i]);
+    // }
 
-    printf("Gridpoints text file read complete.\n");
-    fclose(file);
-    MULTI_GRIDPOINT_PARAMETERS->lat[MULTI_GRIDPOINT_PARAMETERS->nPts] = 0;
-    MULTI_GRIDPOINT_PARAMETERS->lon[MULTI_GRIDPOINT_PARAMETERS->nPts] = 0;
-    MULTI_GRIDPOINT_PARAMETERS->dep[MULTI_GRIDPOINT_PARAMETERS->nPts] = 0;
-    int groupingCount = 0;
-    for (int i = 0; i < MULTI_GRIDPOINT_PARAMETERS->nPts; i++)
-    {
-        MULTI_GRIDPOINT_PARAMETERS->dep[i] = -1000*MULTI_GRIDPOINT_PARAMETERS->dep[i];
-        if ((MULTI_GRIDPOINT_PARAMETERS->lat[i] == MULTI_GRIDPOINT_PARAMETERS->lat[i+1]) &&  (MULTI_GRIDPOINT_PARAMETERS->lon[i] == MULTI_GRIDPOINT_PARAMETERS->lon[i+1]))
-        {
-            MULTI_GRIDPOINT_PARAMETERS->grouping[i] = groupingCount;
-        }
-        else
-        {
-            MULTI_GRIDPOINT_PARAMETERS->grouping[i] = groupingCount;
-            groupingCount += 1;
-        }
-    }
-    MULTI_GRIDPOINT_PARAMETERS->nGroupings = groupingCount;
-    return MULTI_GRIDPOINT_PARAMETERS;
+    // printf("Gridpoints text file read complete.\n");
+    // fclose(file);
+    // MULTI_GRIDPOINT_PARAMETERS->lat[MULTI_GRIDPOINT_PARAMETERS->nPts] = 0;
+    // MULTI_GRIDPOINT_PARAMETERS->lon[MULTI_GRIDPOINT_PARAMETERS->nPts] = 0;
+    // MULTI_GRIDPOINT_PARAMETERS->dep[MULTI_GRIDPOINT_PARAMETERS->nPts] = 0;
+    // int groupingCount = 0;
+    // for (int i = 0; i < MULTI_GRIDPOINT_PARAMETERS->nPts; i++)
+    // {
+    //     MULTI_GRIDPOINT_PARAMETERS->dep[i] = -1000*MULTI_GRIDPOINT_PARAMETERS->dep[i];
+    //     if ((MULTI_GRIDPOINT_PARAMETERS->lat[i] == MULTI_GRIDPOINT_PARAMETERS->lat[i+1]) &&  (MULTI_GRIDPOINT_PARAMETERS->lon[i] == MULTI_GRIDPOINT_PARAMETERS->lon[i+1]))
+    //     {
+    //         MULTI_GRIDPOINT_PARAMETERS->grouping[i] = groupingCount;
+    //     }
+    //     else
+    //     {
+    //         MULTI_GRIDPOINT_PARAMETERS->grouping[i] = groupingCount;
+    //         groupingCount += 1;
+    //     }
+    // }
+    // MULTI_GRIDPOINT_PARAMETERS->nGroupings = groupingCount;
+    // return MULTI_GRIDPOINT_PARAMETERS;
 
 }
 

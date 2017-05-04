@@ -356,7 +356,7 @@ void runGenerateMultipleProfiles(char *MODEL_VERSION, char *OUTPUT_DIR, gen_mult
 }
 
 
-void runGenerateMultipleVSonGrid(global_model_parameters *GLOBAL_MODEL_PARAMETERS ,velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA,global_surfaces *GLOBAL_SURFACES,basin_data *BASIN_DATA, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG)
+void runGenerateMultipleVSonGrid(global_model_parameters *GLOBAL_MODEL_PARAMETERS ,velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA,global_surfaces *GLOBAL_SURFACES,basin_data *BASIN_DATA, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG, double lat, double lon, double depth)
 {
 //void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG)
 //{
@@ -447,11 +447,16 @@ void runGenerateMultipleVSonGrid(global_model_parameters *GLOBAL_MODEL_PARAMETER
 //*******************************************************************************************************
    // loading input data from the desk 
     MULTI_GRIDPOINT_PARAMETERS->nPts= 1;
-    MULTI_GRIDPOINT_PARAMETERS->lat[0]= -43.00;
-    MULTI_GRIDPOINT_PARAMETERS->lon[0]= 172.00;
-    MULTI_GRIDPOINT_PARAMETERS->dep[0]= -2000.0;
+//    MULTI_GRIDPOINT_PARAMETERS->lat[0]= -43.00;
+    MULTI_GRIDPOINT_PARAMETERS->lat[0]= lat;
+//    MULTI_GRIDPOINT_PARAMETERS->lon[0]= 172.00;
+    MULTI_GRIDPOINT_PARAMETERS->lon[0]= lon;
+//    MULTI_GRIDPOINT_PARAMETERS->dep[0]= -2000.0;
+    MULTI_GRIDPOINT_PARAMETERS->dep[0]= depth;
     MULTI_GRIDPOINT_PARAMETERS->nGroupings= 1;  
     int grdPtsCount = 0;
+
+
 
 //*******************************************************************************************************    
     // loop over gridpoints

@@ -21,7 +21,7 @@ extern void writeMultipleProfileSurfaceDepths(global_model_parameters *GLOBAL_MO
  extern multi_gridpoint_parameters *readGridpointsTextFile(char *gridpointsTextFile);
  extern multi_gridpoint_parameters *initializegrid();
 // extern void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG);
-extern void runGenerateMultipleVSonGrid(global_model_parameters *GLOBAL_MODEL_PARAMETERS,velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA,global_surfaces *GLOBAL_SURFACES,basin_data *BASIN_DATA, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG);
+extern void runGenerateMultipleVSonGrid(global_model_parameters *GLOBAL_MODEL_PARAMETERS,velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA,global_surfaces *GLOBAL_SURFACES,basin_data *BASIN_DATA, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG, double lat, double lon, double depth);
 
  extern void writeGridpointVelocities(qualities_vector *QUALITIES_VECTOR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, mesh_vector *MESH_VECTOR, char *OUTPUT_DIR, calculation_log *CALCULATION_LOG, int groupingNum);
 

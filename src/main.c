@@ -65,7 +65,9 @@ int main(int argc, char *argv[])
     char *OUTPUT_DIR;
     char *parametersTextFile = (char*) malloc(MAX_FILENAME_STRING_LEN*sizeof(char));
     char *inputFName;
-
+    double lat;
+    double lon; 
+    double depth;
     // generate structs to house parameters for each call type
     gen_extract_velo_mod_call GEN_EXTRACT_VELO_MOD_CALL;
     gen_velo_slices_call GEN_VELO_SLICES_CALL;
@@ -183,10 +185,17 @@ global_model_parameters *GLOBAL_MODEL_PARAMETERS;
      if (GENERATE_VELOCITIES_ON_GRID == 1)
     {   
         printf("Running load data from main.\n");
+        lat=-44.00;
+        lon=172.00;
+        depth=-2000;
+
         loadAllGlobalData(GLOBAL_MODEL_PARAMETERS, CALCULATION_LOG, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA);
-        runGenerateMultipleVSonGrid(GLOBAL_MODEL_PARAMETERS , VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG);
+        runGenerateMultipleVSonGrid(GLOBAL_MODEL_PARAMETERS , VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG, lat,lon,depth);
         printf("Done with the first one.\n");
-        runGenerateMultipleVSonGrid(GLOBAL_MODEL_PARAMETERS , VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG);
+        lat=-43.00;
+        lon=172.00;
+        depth=-2000;        
+        runGenerateMultipleVSonGrid(GLOBAL_MODEL_PARAMETERS , VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG, lat, lon, depth);
 
         // printf("==========================================\n");
         // printf("Running GENERATE_VELOCITIES_ON_GRID.\n");

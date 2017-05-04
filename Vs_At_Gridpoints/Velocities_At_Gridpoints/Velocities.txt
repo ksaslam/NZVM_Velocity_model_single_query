@@ -1,0 +1,2 @@
+Latitude	Longitude	Depth(km)	Vp(km/s)	Vs(km/s)	Rho(t/m^3)
+-43.000000 	 172.000000 	 -2.000000 	 5.037642 	 2.953555 	 2.605565

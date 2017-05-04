@@ -356,12 +356,13 @@ void runGenerateMultipleProfiles(char *MODEL_VERSION, char *OUTPUT_DIR, gen_mult
 }
 
 
-//void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG)
-void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG, double lat, double lon, double depth)
+void runGenerateMultipleVSonGrid(global_model_parameters *GLOBAL_MODEL_PARAMETERS ,velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA,global_surfaces *GLOBAL_SURFACES,basin_data *BASIN_DATA, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG)
 {
+//void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extract_multi_gridpoint_vs_call GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, calculation_log *CALCULATION_LOG)
+//{
     // Read in text file with parameters
     multi_gridpoint_parameters *MULTI_GRIDPOINT_PARAMETERS;
-
+    printf( "This is total number of points %d\n", &MULTI_GRIDPOINT_PARAMETERS->nPts );
 //    MULTI_GRIDPOINT_PARAMETERS = readGridpointsTextFile(GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.COORDINATES_TEXT_FILE);
     MULTI_GRIDPOINT_PARAMETERS = initializegrid();
     variable_depth_points *VARIABLE_DEPTH_POINTS;
@@ -375,43 +376,61 @@ void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extr
     // MULTI_GRIDPOINT_PARAMETERS->dep[0]= -2000.0;
     // MULTI_GRIDPOINT_PARAMETERS->nGroupings= 1;     
 
-// ************************************************************************************************** 
+
+// ********************************************************************************************************
+    // test of the input parameters 
+
+    printf( "This is total number of points %d\n", MULTI_GRIDPOINT_PARAMETERS->nPts );
+    printf( "This is the lat long value, %lf %lf %lf", MULTI_GRIDPOINT_PARAMETERS->lat[0], MULTI_GRIDPOINT_PARAMETERS->lon[0], MULTI_GRIDPOINT_PARAMETERS->dep[0] );
+   // printf( "This is total number of points, %d\n",&MULTI_GRIDPOINT_PARAMETERS->nPts );
+
+
+//**********************************************************************************************************    
 
     // obtain surface filenames based off version number
-    global_model_parameters *GLOBAL_MODEL_PARAMETERS;
-    GLOBAL_MODEL_PARAMETERS = getGlobalModelParameters(MODEL_VERSION);
+    
 
-    // read in velocity model data (surfaces, 1D models, tomography etc)
-    velo_mod_1d_data *VELO_MOD_1D_DATA;
-    VELO_MOD_1D_DATA = malloc(sizeof(velo_mod_1d_data));
-    if (VELO_MOD_1D_DATA == NULL)
-    {
-        printf("Memory allocation of VELO_MOD_1D_DATA failed.\n");
-        exit(EXIT_FAILURE);
-    }
-    nz_tomography_data *NZ_TOMOGRAPHY_DATA;
-    NZ_TOMOGRAPHY_DATA = malloc(sizeof(nz_tomography_data));
-    if (NZ_TOMOGRAPHY_DATA == NULL)
-    {
-        printf("Memory allocation of NZ_TOMOGRAPHY_DATA failed.\n");
-        exit(EXIT_FAILURE);
-    }
-    global_surfaces *GLOBAL_SURFACES;
-    GLOBAL_SURFACES = malloc(sizeof(global_surfaces));
-    if (GLOBAL_SURFACES == NULL)
-    {
-        printf("Memory allocation of GLOBAL_SURFACES failed.\n");
-        exit(EXIT_FAILURE);
-    }
-    basin_data *BASIN_DATA;
-    BASIN_DATA = malloc(sizeof(basin_data));
-    if (BASIN_DATA == NULL)
-    {
-        printf("Memory allocation of BASIN_DATA failed.\n");
-        exit(EXIT_FAILURE);
-    }
 
-    loadAllGlobalData(GLOBAL_MODEL_PARAMETERS, CALCULATION_LOG, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA);
+
+
+    // global_model_parameters *GLOBAL_MODEL_PARAMETERS;
+    // GLOBAL_MODEL_PARAMETERS = getGlobalModelParameters(MODEL_VERSION);
+
+    // // read in velocity model data (surfaces, 1D models, tomography etc)
+    // velo_mod_1d_data *VELO_MOD_1D_DATA;
+    // VELO_MOD_1D_DATA = malloc(sizeof(velo_mod_1d_data));
+    // if (VELO_MOD_1D_DATA == NULL)
+    // {
+    //     printf("Memory allocation of VELO_MOD_1D_DATA failed.\n");
+    //     exit(EXIT_FAILURE);
+    // }
+    // nz_tomography_data *NZ_TOMOGRAPHY_DATA;
+    // NZ_TOMOGRAPHY_DATA = malloc(sizeof(nz_tomography_data));
+    // if (NZ_TOMOGRAPHY_DATA == NULL)
+    // {
+    //     printf("Memory allocation of NZ_TOMOGRAPHY_DATA failed.\n");
+    //     exit(EXIT_FAILURE);
+    // }
+    // global_surfaces *GLOBAL_SURFACES;
+    // GLOBAL_SURFACES = malloc(sizeof(global_surfaces));
+    // if (GLOBAL_SURFACES == NULL)
+    // {
+    //     printf("Memory allocation of GLOBAL_SURFACES failed.\n");
+    //     exit(EXIT_FAILURE);
+    // }
+    // basin_data *BASIN_DATA;
+    // BASIN_DATA = malloc(sizeof(basin_data));
+    // if (BASIN_DATA == NULL)
+    // {
+    //     printf("Memory allocation of BASIN_DATA failed.\n");
+    //     exit(EXIT_FAILURE);
+    // }
+
+    // loadAllGlobalData(GLOBAL_MODEL_PARAMETERS, CALCULATION_LOG, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA);
+   
+// ******************************************************************************************************
+
+
     mesh_vector *MESH_VECTOR;
     MESH_VECTOR = malloc(sizeof(mesh_vector));
     if (MESH_VECTOR == NULL)
@@ -420,23 +439,20 @@ void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extr
         exit(EXIT_FAILURE);
     }
 
+
+
+
+
+
 //*******************************************************************************************************
-   // loading input data from the command line 
+   // loading input data from the desk 
     MULTI_GRIDPOINT_PARAMETERS->nPts= 1;
+    MULTI_GRIDPOINT_PARAMETERS->lat[0]= -43.00;
+    MULTI_GRIDPOINT_PARAMETERS->lon[0]= 172.00;
+    MULTI_GRIDPOINT_PARAMETERS->dep[0]= -2000.0;
     MULTI_GRIDPOINT_PARAMETERS->nGroupings= 1;  
     int grdPtsCount = 0;
-    MULTI_GRIDPOINT_PARAMETERS->lat[0]= lat;
-    MULTI_GRIDPOINT_PARAMETERS->lon[0]= lon;
-    MULTI_GRIDPOINT_PARAMETERS->dep[0]= depth;
 
-
-    // printing data to command line 
-
-    printf( "This lat long depth value is given, %lf %lf %lf\n", MULTI_GRIDPOINT_PARAMETERS->lat[0], MULTI_GRIDPOINT_PARAMETERS->lon[0], MULTI_GRIDPOINT_PARAMETERS->dep[0] );
-   // printf( "This is total number of points, %d\n",&MULTI_GRIDPOINT_PARAMETERS->nPts );
-
-
-//**********************************************************************************************************   
 //*******************************************************************************************************    
     // loop over gridpoints
 //    for( int i = 0; i < MULTI_GRIDPOINT_PARAMETERS->nGroupings; i++ )
@@ -483,7 +499,7 @@ void runGenerateMultipleVSonGrid(char *MODEL_VERSION, char *OUTPUT_DIR, gen_extr
         assignQualities(GLOBAL_MODEL_PARAMETERS, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA,
                         MESH_VECTOR, PARTIAL_GLOBAL_SURFACE_DEPTHS, PARTIAL_BASIN_SURFACE_DEPTHS, IN_BASIN,
                         QUALITIES_VECTOR, CALCULATION_LOG, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL.TOPO_TYPE);
-       
+        printf("Hello test the grouping loop .\n");
         writeGridpointVelocities(QUALITIES_VECTOR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, MESH_VECTOR, OUTPUT_DIR, CALCULATION_LOG, i);
 
         printf("Gridpoint lat-lon %i of %i complete.\n", i + 1, MULTI_GRIDPOINT_PARAMETERS->nGroupings);

@@ -180,11 +180,16 @@ global_model_parameters *GLOBAL_MODEL_PARAMETERS;
         depth=-2000;
 
         loadAllGlobalData(GLOBAL_MODEL_PARAMETERS, CALCULATION_LOG, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA);
+        convert_program (100.0,200.0);
         runGenerateMultipleVSonGrid(GLOBAL_MODEL_PARAMETERS , VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG, lat,lon,depth);
         printf("Done with the first one.\n");
         lat=-43.00;
         lon=172.00;
         depth=-2000;        
+        runGenerateMultipleVSonGrid(GLOBAL_MODEL_PARAMETERS , VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG, lat, lon, depth);
+        lat=-43.50;
+        lon=173.00;
+        depth=-1000;         
         runGenerateMultipleVSonGrid(GLOBAL_MODEL_PARAMETERS , VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, OUTPUT_DIR, GEN_EXTRACT_MULTI_GRIDPOINT_VS_CALL, CALCULATION_LOG, lat, lon, depth);
 
         // printf("==========================================\n");
